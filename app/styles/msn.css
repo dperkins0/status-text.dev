@@ -1,0 +1,241 @@
+/**
+ * MSN Messenger-inspired styling
+ */
+
+:root {
+  --msn-purple: #5a5fef;
+  --msn-blue: #0078d7;
+  --msn-green: #7fba00;
+  --msn-orange: #ffb900;
+  --msn-gray: #5e5e5e;
+  --msn-light-gray: #e5e5e5;
+  --msn-border: #acacac;
+  --msn-window-bg: #ece9d8;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.msn-window {
+  background: #fff;
+  border: 3px solid var(--msn-border);
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  width: 400px;
+  overflow: hidden;
+}
+
+.msn-title-bar {
+  background: linear-gradient(to bottom, #3a5ba9 0%, #2d4b88 100%);
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1a3066;
+}
+
+.msn-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.msn-logo {
+  width: 16px;
+  height: 16px;
+  background: var(--msn-green);
+  border-radius: 50%;
+}
+
+.msn-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.msn-control-btn {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #6189d4 0%, #4672c4 100%);
+  cursor: pointer;
+  font-size: 10px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.msn-control-btn:hover {
+  background: linear-gradient(to bottom, #7199e4 0%, #5682d4 100%);
+}
+
+.msn-content {
+  padding: 24px;
+  background: #fff;
+}
+
+.msn-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.msn-header-logo {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--msn-purple), var(--msn-blue));
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.msn-header h1 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--msn-gray);
+  font-weight: bold;
+}
+
+.msn-header p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #666;
+}
+
+.msn-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.msn-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.msn-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: var(--msn-gray);
+}
+
+.msn-input {
+  padding: 6px 8px;
+  border: 1px solid var(--msn-border);
+  border-radius: 3px;
+  font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.msn-input:focus {
+  border-color: var(--msn-blue);
+  box-shadow: 0 0 0 2px rgba(0, 120, 215, 0.1);
+}
+
+.msn-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.msn-checkbox {
+  width: 14px;
+  height: 14px;
+}
+
+.msn-checkbox-label {
+  font-size: 11px;
+  color: var(--msn-gray);
+  cursor: pointer;
+  user-select: none;
+}
+
+.msn-button {
+  padding: 8px 16px;
+  border: 1px solid #003c74;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #0078d7 0%, #005a9e 100%);
+  color: #fff;
+  font-family: "Tahoma", "Segoe UI", Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.msn-button:hover {
+  background: linear-gradient(to bottom, #1084e3 0%, #106aae 100%);
+}
+
+.msn-button:active {
+  background: linear-gradient(to bottom, #005a9e 0%, #0078d7 100%);
+}
+
+.msn-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.msn-button-secondary {
+  background: linear-gradient(to bottom, #f0f0f0 0%, #d0d0d0 100%);
+  border-color: var(--msn-border);
+  color: var(--msn-gray);
+}
+
+.msn-button-secondary:hover {
+  background: linear-gradient(to bottom, #f8f8f8 0%, #e0e0e0 100%);
+}
+
+.msn-link {
+  color: var(--msn-blue);
+  text-decoration: none;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.msn-link:hover {
+  text-decoration: underline;
+}
+
+.msn-error {
+  background: #fef0f0;
+  border: 1px solid #fcc;
+  border-radius: 3px;
+  padding: 8px 12px;
+  color: #c00;
+  font-size: 11px;
+}
+
+.msn-divider {
+  border: 0;
+  border-top: 1px solid var(--msn-light-gray);
+  margin: 16px 0;
+}
+
+.msn-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 11px;
+  color: #666;
+}
