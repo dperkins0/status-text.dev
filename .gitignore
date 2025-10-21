@@ -16,3 +16,8 @@ worker-configuration.d.ts
 
 !.dev.vars.example
 !.env.example
+
+
+# Malarkey
+.playwright-mcp/
+resources/

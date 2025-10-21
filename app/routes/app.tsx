@@ -241,7 +241,7 @@ export default function App({ loaderData }: Route.ComponentProps) {
         {/* User info */}
         <div style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: "1px solid #e5e5e5" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "linear-gradient(135deg, #667eea, #764ba2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "14px" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "linear-gradient(135deg, #4eb5e5, #0078d7)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "14px" }}>
               {loaderData.user.username[0].toUpperCase()}
             </div>
             <div style={{ flex: 1, overflow: "hidden" }}>
