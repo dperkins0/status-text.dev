@@ -93,6 +93,14 @@ export default function Login() {
         </div>
       </div>
 
+      <div className="msn-menu-bar">
+        <div className="msn-menu-item">File</div>
+        <div className="msn-menu-item">Contacts</div>
+        <div className="msn-menu-item">Actions</div>
+        <div className="msn-menu-item">Tools</div>
+        <div className="msn-menu-item">Help</div>
+      </div>
+
       <div className="msn-content">
         <div className="msn-header">
           <div className="msn-header-logo">M</div>

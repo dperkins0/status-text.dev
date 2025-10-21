@@ -237,6 +237,14 @@ export default function App({ loaderData }: Route.ComponentProps) {
         </div>
       </div>
 
+      <div className="msn-menu-bar">
+        <div className="msn-menu-item">File</div>
+        <div className="msn-menu-item">Contacts</div>
+        <div className="msn-menu-item">Actions</div>
+        <div className="msn-menu-item">Tools</div>
+        <div className="msn-menu-item">Help</div>
+      </div>
+
       <div className="msn-content" style={{ padding: "12px" }}>
         {/* User info */}
         <div style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: "1px solid #e5e5e5" }}>
