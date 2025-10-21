@@ -18,4 +18,7 @@ export default [
   route("api/friends/accept", "routes/api/friends/accept.ts"),
   route("api/friends/remove", "routes/api/friends/remove.ts"),
   route("api/friends/search", "routes/api/friends/search.ts"),
+
+  // API routes - Status
+  route("api/status/update", "routes/api/status/update.ts"),
 ] satisfies RouteConfig;

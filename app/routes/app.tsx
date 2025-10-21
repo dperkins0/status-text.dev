@@ -67,11 +67,22 @@ export default function App({ loaderData }: Route.ComponentProps) {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [pendingRequests, setPendingRequests] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState(loaderData.status.status_type);
+  const [statusText, setStatusText] = useState(loaderData.status.status_text);
+  const [showStatusMenu, setShowStatusMenu] = useState(false);
 
   // Load friends and requests
   useEffect(() => {
     loadFriends();
     loadRequests();
+
+    // Poll for friend updates every 10 seconds
+    const interval = setInterval(() => {
+      loadFriends();
+      loadRequests();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const loadFriends = async () => {
@@ -153,6 +164,25 @@ export default function App({ loaderData }: Route.ComponentProps) {
     window.location.href = "/login";
   };
 
+  const handleUpdateStatus = async (newStatusType: string, newStatusText?: string) => {
+    const response = await fetch("/api/status/update", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        status_type: newStatusType,
+        status_text: newStatusText !== undefined ? newStatusText : statusText,
+      }),
+    });
+    const data = await response.json();
+    if (data.success) {
+      setCurrentStatus(newStatusType);
+      if (newStatusText !== undefined) {
+        setStatusText(newStatusText);
+      }
+      setShowStatusMenu(false);
+    }
+  };
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "online": return "#7fba00";
@@ -164,6 +194,30 @@ export default function App({ loaderData }: Route.ComponentProps) {
       default: return "#999";
     }
   };
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case "online": return "🟢 Online";
+      case "away": return "🟡 Away";
+      case "busy": return "🔴 Busy";
+      case "brb": return "🟡 Be Right Back";
+      case "phone": return "📞 On the Phone";
+      case "lunch": return "🍽️ Out to Lunch";
+      case "appear_offline": return "⚫ Appear Offline";
+      case "offline": return "⚪ Offline";
+      default: return status;
+    }
+  };
+
+  const statusOptions = [
+    { value: "online", label: "🟢 Online" },
+    { value: "away", label: "🟡 Away" },
+    { value: "busy", label: "🔴 Busy" },
+    { value: "brb", label: "🟡 Be Right Back" },
+    { value: "phone", label: "📞 On the Phone" },
+    { value: "lunch", label: "🍽️ Out to Lunch" },
+    { value: "appear_offline", label: "⚫ Appear Offline" },
+  ];
 
   // Group friends by status
   const onlineFriends = friends.filter(f => f.status_type === "online");
@@ -185,18 +239,61 @@ export default function App({ loaderData }: Route.ComponentProps) {
 
       <div className="msn-content" style={{ padding: "12px" }}>
         {/* User info */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", paddingBottom: "12px", borderBottom: "1px solid #e5e5e5" }}>
-          <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "linear-gradient(135deg, #667eea, #764ba2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "14px" }}>
-            {loaderData.user.username[0].toUpperCase()}
-          </div>
-          <div style={{ flex: 1, overflow: "hidden" }}>
-            <div style={{ fontWeight: "bold", fontSize: "12px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-              {loaderData.user.username}
+        <div style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: "1px solid #e5e5e5" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "linear-gradient(135deg, #667eea, #764ba2)", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontWeight: "bold", fontSize: "14px" }}>
+              {loaderData.user.username[0].toUpperCase()}
             </div>
-            <div style={{ fontSize: "10px", color: "#666", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-              {loaderData.status.status_text || "No status"}
+            <div style={{ flex: 1, overflow: "hidden" }}>
+              <div style={{ fontWeight: "bold", fontSize: "12px", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {loaderData.user.username}
+              </div>
             </div>
           </div>
+
+          {/* Status selector */}
+          <div style={{ position: "relative", marginBottom: "6px" }}>
+            <button
+              onClick={() => setShowStatusMenu(!showStatusMenu)}
+              style={{ width: "100%", padding: "4px 8px", fontSize: "10px", background: "#fff", border: "1px solid #ccc", borderRadius: "3px", textAlign: "left", cursor: "pointer", display: "flex", alignItems: "center", gap: "4px" }}
+            >
+              <span style={{ flex: 1 }}>{getStatusLabel(currentStatus)}</span>
+              <span style={{ fontSize: "8px" }}>▼</span>
+            </button>
+            {showStatusMenu && (
+              <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "#fff", border: "1px solid #ccc", borderRadius: "3px", marginTop: "2px", zIndex: 10, maxHeight: "200px", overflow: "auto", boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}>
+                {statusOptions.map((option) => (
+                  <div
+                    key={option.value}
+                    onClick={() => handleUpdateStatus(option.value)}
+                    style={{ padding: "6px 8px", fontSize: "10px", cursor: "pointer", background: currentStatus === option.value ? "#e8f4fd" : "#fff" }}
+                    onMouseEnter={(e) => { if (currentStatus !== option.value) e.currentTarget.style.background = "#f5f5f5"; }}
+                    onMouseLeave={(e) => { if (currentStatus !== option.value) e.currentTarget.style.background = "#fff"; }}
+                  >
+                    {option.label}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Status text input */}
+          <input
+            type="text"
+            className="msn-input"
+            placeholder="What's on your mind?"
+            value={statusText}
+            onChange={(e) => setStatusText(e.target.value)}
+            onBlur={() => handleUpdateStatus(currentStatus, statusText)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleUpdateStatus(currentStatus, statusText);
+                e.currentTarget.blur();
+              }
+            }}
+            maxLength={128}
+            style={{ fontSize: "10px", padding: "4px 6px" }}
+          />
         </div>
 
         {/* Pending requests */}
